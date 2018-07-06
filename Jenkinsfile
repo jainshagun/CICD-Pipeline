@@ -50,7 +50,7 @@ pipeline {
                 echo 'Creting JIRA....'
 		//sh "./CICDscript.sh -k 'CICD' -s 'CICD Pipeline' -d 'CICD Pipeline test' -a $WORKSPACE/jmeter/results/*.csv"
 		sh 'f=$WORKSPACE; f="${f/C://c}"; f="${f//\\//}"; echo $f'
-		//sh 'f=$WORKSPACE; f="${f/C://c}"; f="${f//\\//}"; ./CICDscript.sh -k "CICD" -s "CICD Pipeline" -d "CICD Pipeline test" -a "$f/jmeter-testproject/results/*.csv"'    
+		//sh 'f=$WORKSPACE; f="${f/C://\\c}"; f="${f//\\//}"; ./CICDscript.sh -k "CICD" -s "CICD Pipeline" -d "CICD Pipeline test" -a "$f/jmeter-testproject/results/*.csv"'    
             }
     	}
     }
