@@ -42,7 +42,7 @@ pipeline {
                 echo 'PT Testing....'
 		dir("$WORKSPACE/jmeter-testproject") {
 			bat 'mvn verify'
-		}'
+		}
             }
     	}
 	stage('Add PT result to JIRA') {
