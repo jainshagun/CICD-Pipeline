@@ -33,7 +33,7 @@ if [ "$findSummary" != "null"  ]
 else
                 echo "Creating ticket under CICD Board"
                 url="http://localhost:8081/rest/api/2/issue/"
-				summaryData="'"{"\"fields\"":{"\"project\"":{"\"key\"":"\"$key\""},"\"summary\"":"\"$sum\"","\"description\"":"\"$des\"","\"issuetype\"":{"\"name\"":"\"Task\""}}}"'"
+				summaryData="'"{"\"fields\"":{"\"project\"":{"\"key\"":"\"$key\""},"\"summary\"":"\"$sum\"","\"description\"":"\"$des\"","\"issuetype\"":{"\"name\"":"\"Change\""}}}"'"
                 #summaryData="'"{"\"fields\"":{"\"project\"":{"\"key\"":"\"$key\""},"\"summary\"":"\"$sum\"","\"description\"":"\"$des\"","\"customfield_10108\"":{"\"value\"":"\"06/Jul/18 4:10 PM\""},"\"customfield_10107\"":{"\"value\"":"\"06/Jul/18 5:10 PM\""},"\"issuetype\"":{"\"name\"":"\"Change\""}}}"'"
                 result=`eval curl -D- -u admin:admin -X POST --data "$summaryData" -H "$contentType" "$url"`
                 jiranumber=`echo $result | awk -F '"' '{print $8}'`
