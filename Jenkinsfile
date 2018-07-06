@@ -48,7 +48,7 @@ pipeline {
 	stage('Add PT result to JIRA') {
 	    steps {
                 echo 'Creting JIRA....'
-		cp "$WORKSPACE/jmeter/results/*.csv" "$WORKSPACE"
+		bat 'cp "$WORKSPACE/jmeter/results/*.csv" "$WORKSPACE"'
 		//sh "./CICDscript.sh -k 'CICD' -s 'CICD Pipeline' -d 'CICD Pipeline test' -a $WORKSPACE/jmeter/results/*.csv"
 	    }
     	}
