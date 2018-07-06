@@ -22,7 +22,7 @@ pipeline {
 		bat 'docker run -d -p 9999:8080 hello'
             }
     	}
-    	stage('Test') {
+    	stage('Fuctional Test') {
             steps {
                 echo 'Testing..'
 		bat 'sleep 30'
@@ -31,6 +31,14 @@ pipeline {
 		}
 	    }
         }
+	stage('PT Test') {
+	    steps {
+                echo 'PT Testing....'
+		dir("$WORKSPACE/jmeter-testproject") {
+			bat 'mvn verify'
+		}'
+            }
+    	}
     	stage('Create JIRA') {
 	    steps {
                 echo 'Creting JIRA....'
