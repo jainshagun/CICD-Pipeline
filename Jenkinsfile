@@ -31,6 +31,12 @@ pipeline {
 		}
 	    }
         }
+	stage('Create JIRA') {
+	    steps {
+                echo 'Creting JIRA....'
+		sh './CICDscript.sh -k "CICD" -s "CICD Pipeline" -d "CICD Pipeline test" -a "$WORKSPACE/hellocucumber/target/surefire-reports/*.txt"'
+            }
+    	}
 	stage('PT Test') {
 	    steps {
                 echo 'PT Testing....'
@@ -39,10 +45,10 @@ pipeline {
 		}'
             }
     	}
-    	stage('Create JIRA') {
+	stage('Add PT result to JIRA') {
 	    steps {
                 echo 'Creting JIRA....'
-		sh './CICDscript.sh -k "CICD" -s "CICD Pipeline" -d "CICD Pipeline test"'
+		sh './CICDscript.sh -k "CICD" -s "CICD Pipeline" -d "CICD Pipeline test" -a "$WORKSPACE/jmeter/results/*.csv"'
             }
     	}
     }
