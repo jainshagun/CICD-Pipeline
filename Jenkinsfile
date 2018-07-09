@@ -49,7 +49,7 @@ pipeline {
 	    steps {
                 echo 'Creting JIRA....'
 		bat 'xcopy /s/Y "%WORKSPACE%\\jmeter-testproject\\target\\jmeter\\results\\*.csv" "%WORKSPACE%"'
-		sh 'file=`ls *.csv`;filearg="\"$file\"";echo $filearg'
+		sh 'file=`ls *.csv`;echo "\"$file\""'
 	    }
     	}
     }
