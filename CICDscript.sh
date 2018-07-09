@@ -43,8 +43,7 @@ if [ -z $attach ] || [ $attach = $empty ]
         then
                 echo "No Attachments."
 else
-	file=`ls $attach`
-        curl -D- -u admin:admin -X POST -H "X-Atlassian-Token: no-check" -F "file=@$file" --url http://localhost:8081/rest/api/2/issue/$jiranumber/attachments
+        curl -D- -u admin:admin -X POST -H "X-Atlassian-Token: no-check" -F "file=@$attach" --url http://localhost:8081/rest/api/2/issue/$jiranumber/attachments
 fi
 
 if [ -z $jira ] || [ $jira = $empty ]
