@@ -5,7 +5,6 @@ import cucumber.api.junit.Cucumber;
 import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
-@CucumberOptions(plugin = {"pretty"};strict = false, features = &quot;features&quot;, format = { &quot;pretty&quot;,
-        &quot;json:target/cucumber.json&quot; }, tags = { &quot;~@ignore&quot; })
+@CucumberOptions(strict = false, format = { "pretty", "json:target/cucumber.json" }, tags = { "~@ignore" })
 public class RunCucumberTest {
 }
