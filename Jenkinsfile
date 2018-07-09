@@ -34,8 +34,8 @@ pipeline {
 	stage('Create JIRA') {
 	    steps {
                 echo 'Creting JIRA....'
-		bat 'xcopy /s/Y "%WORKSPACE%\\hellocucumber\\target\\surefire-reports\\*.txt" "%WORKSPACE%"'
-		sh 'file=`ls *.txt`;./CICDscript.sh -k "CICD" -s "CICD Pipeline" -d "CICD Pipeline test" -a $file'
+		bat 'xcopy /s/Y "%WORKSPACE%\\hellocucumber\\target\\*.json" "%WORKSPACE%"'
+		sh 'file=`ls *.json`;./CICDscript.sh -k "CICD" -s "CICD Pipeline" -d "CICD Pipeline test" -a $file'
             }
     	}
 	stage('PT Test') {
