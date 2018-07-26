@@ -13,7 +13,7 @@ import io.restassured.*;
 
 public class Stepdefs {
 	
-	private Response response = RestAssured.get("http://cicd-hello.service.eu-west-1.staging.deveng.systems/");
+	private Response response = RestAssured.get("http://cicd-hello.service.eu-west-1.dev.deveng.systems/");
 	
 	@When("^I go to the homepage$")
 		public void i_go_to_the_homepage() throws Exception {
