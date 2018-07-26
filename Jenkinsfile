@@ -34,7 +34,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
-		        sh 'curl -X PUT -d @cicd.hello-world.json -H "Content-type: application/json" http://deploy.service.parkfarm.staging.deveng.systems/v2/apps/devops/cicd-hello'
+		        sh 'curl -X PUT -d @cicd.hello-world.json -H "Content-type: application/json" http://deploy.service.eu-west-1.dev.deveng.systems/v2/apps/devops/cicd-hello'
             }
     	}
     	stage('Fuctional Test') {
