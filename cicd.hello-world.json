@@ -1,0 +1,24 @@
+{
+	"id": "/devops/cicd-hello",
+	"cpus": 0.1,
+	"mem": 1024,
+	"instances": 1,
+	"container": {
+  		"docker": {
+			"image": "docker.deveng.systems/devops/hello:v2"
+		}
+	},
+	"lables": {
+		"SERVICE_NAME": "cicd-hello",
+		"SERVICE_ZONE": "private",
+		"TEAM_NAME": "devops"
+	},
+	"portDefinitions": [
+		{
+			"labels": {
+				"containerPort": "8090",
+				"loadbalancerPort": "80"
+			}
+		}
+	]
+}
