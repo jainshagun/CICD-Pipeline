@@ -8,7 +8,7 @@
 			"image": "docker.deveng.systems/devops/hello:v2"
 		}
 	},
-	"lables": {
+	"labels": {
 		"SERVICE_NAME": "cicd-hello",
 		"SERVICE_ZONE": "private",
 		"TEAM_NAME": "devops"
