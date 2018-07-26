@@ -16,7 +16,7 @@
 	"portDefinitions": [
 		{
 			"labels": {
-				"containerPort": "8090",
+				"containerPort": "8080",
 				"loadbalancerPort": "80"
 			}
 		}
