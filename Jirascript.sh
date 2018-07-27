@@ -119,7 +119,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 echo "Checking RCV Dashboard for existing tickets"
-STR=$sum
+STR=$summary
 STR=`echo ${STR// /%20}`
 empty="\"\""
 contentType='"Content-Type:application/json"'
@@ -154,7 +154,7 @@ if [ -z $jiraLink ] || [ $jiraLink = $empty ]
         then
                 echo "No JIRA to Attachments."
 else
-        linkSTR=$jira
+        linkSTR=$jiraLink
         linkSTR=`echo ${linkSTR// /%20}`
         curl -u $cred -X GET -H "Content-Type:application/json" "http://localhost:8081/rest/api/2/search?jql=cf[10009]=$linkSTR" > "/tmp/input_cicd2.json"
         totaljira=`jq .total '/tmp/input_cicd2.json'`
