@@ -33,7 +33,7 @@ pipeline {
             }
 	    post{
 		        always{
-		            sh './Jirascript.sh --rcvnumer $jiranumber'
+		            sh './Jirascript.sh --rcvnumber $jiranumber'
                 	}
 	    }
     	}
