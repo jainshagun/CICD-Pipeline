@@ -34,8 +34,8 @@ pipeline {
 	    post{
 		        always{
 		            sh '''
-			    contentType='"Content-Type:application/json"'
-			    commentData="'"{"\"update\"":{"\"comment\"":[{"\"add\"":{"\"body\"":"\"PROD depoyment done.\""}}]}}"'"
+			    contentType='"Content-Type:application/json"';
+			    commentData="'"{"\"update\"":{"\"comment\"":[{"\"add\"":{"\"body\"":"\"PROD deployment done.\""}}]}}"'";
 			    url="http://localhost:8081/rest/api/2/issue/$jiranumber"
 			    var=`echo curl -D- -u $cred -X PUT --data "$commentData" -H "$contentType" "$url"`
 			    eval $var
