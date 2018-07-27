@@ -131,12 +131,12 @@ if [ "$findSummary" != "null"  ]
                         jiranumber=`echo $findTicket | cut -d "\"" -f2`
                         echo "Adding comment to $jiranumber"
                         commentData="'"{"\"update\"":{"\"comment\"":[{"\"add\"":{"\"body\"":"\"$sum\""}}]}}"'"
-                        url="https://localhost:8081/rest/api/2/issue/$jiranumber"
+                        url="http://localhost:8081/rest/api/2/issue/$jiranumber"
                         var=`echo curl -D- -u $cred -X PUT --data "$commentData" -H "$contentType" "$url"`
                         eval $var
 else
                 echo "Creating ticket under RCV Board"
-                url="https://localhost:8081/rest/api/2/issue/"
+                url="http://localhost:8081/rest/api/2/issue/"
                 summaryData="'"{"\"fields\"":{"\"project\"":{"\"key\"":"\"$key\""},"\"summary\"":"\"$summary\"","\"description\"":"\"$description\"","\"customfield_10112\"":{"\"value\"":"\"$outageRequired\""},"\"customfield_10113\"":"\"$outageDetails\"","\"customfield_10114\"":"\"$startPlan\"","\"customfield_10107\"":"\"$startWindow\"","\"customfield_10108\"":"\"$endWindow\"","\"customfield_10109\"":"\"$outageStart\"","\"customfield_10110\"":"\"$outageEnd\"","\"customfield_10116\"":"\"$contactDetails\"","\"customfield_10111\"":"\"$impact\"","\"customfield_10115\"":{"\"value\"":"\"$changeType\""},"\"issuetype\"":{"\"name\"":"\"Change\""}}}"'"
                 result=`eval curl -D- -u $cred -X POST --data "$summaryData" -H "$contentType" "$url"`
                 echo $result
@@ -147,7 +147,7 @@ if [ -z $attachment ] || [ $attachment = $empty ]
         then
                 echo "No Attachments."
 else
-        curl -D- -u $cred -X POST -H "X-Atlassian-Token: no-check" -F "file=@$attachment" --url https://localhost:8081/rest/api/2/issue/$jiranumber/attachments
+        curl -D- -u $cred -X POST -H "X-Atlassian-Token: no-check" -F "file=@$attachment" --url http://localhost:8081/rest/api/2/issue/$jiranumber/attachments
 fi
 
 if [ -z $jiraLink ] || [ $jiraLink = $empty ]
@@ -156,7 +156,7 @@ if [ -z $jiraLink ] || [ $jiraLink = $empty ]
 else
         linkSTR=$jira
         linkSTR=`echo ${linkSTR// /%20}`
-        curl -u $cred -X GET -H "Content-Type:application/json" "https://localhost:8081/rest/api/2/search?jql=cf[10009]=$linkSTR" > "/tmp/input_cicd2.json"
+        curl -u $cred -X GET -H "Content-Type:application/json" "http://localhost:8081/rest/api/2/search?jql=cf[10009]=$linkSTR" > "/tmp/input_cicd2.json"
         totaljira=`jq .total '/tmp/input_cicd2.json'`
         if [ $totaljira!='0' ]
                 then
@@ -165,7 +165,7 @@ else
                                 do
                                         linkfindTicket=`jq .issues[$i].key '/tmp/input_cicd2.json'`
                                         linkjiranumber=`echo $linkfindTicket | cut -d "\"" -f2`
-                                        linkurl="https://localhost:8081/rest/api/2/issueLink"
+                                        linkurl="http://localhost:8081/rest/api/2/issueLink"
                                         linksummaryData="'"{"\"inwardIssue\"":{"\"key\"":"\"$jiranumber\""},"\"outwardIssue\"":{"\"key\"":"\"$linkjiranumber\""},"\"type\"":{"\"id\"":"\"10003\"","\"name\"":"\"Relates\"","\"inward\"":"\"relates to\"","\"outward\"":"\"relates to\""}}"'"
                                         eval curl -D- -u $cred -X POST --data "$linksummaryData" -H "$contentType" "$linkurl"
                                         i=$((i+1))
