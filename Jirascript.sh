@@ -17,6 +17,7 @@ ARGUMENT_LIST=(
         "outageStart"
         "outageEnd"
         "cred"
+        "rcvnumber"
 )
 
 
@@ -111,6 +112,11 @@ while [[ $# -gt 0 ]]; do
             cred=$2
             shift 2
             ;;
+            
+        --rcvnumber)
+            rcvnumber=$2
+            shift 2
+            ;;
 
         *)
             break
@@ -123,6 +129,8 @@ STR=$summary
 STR=`echo ${STR// /%20}`
 empty="\"\""
 contentType='"Content-Type:application/json"'
+if [ -z $rcvnumber ] || [ $$rcvnumber = $empty ]
+        then
 curl -u $cred -X GET -H "Content-Type:application/json" "http://localhost:8081/rest/agile/1.0/board/1/issue?fields=summary&jql=project+%3D+$key+AND+status+!%3D+Closed+AND+summary~%22$STR%22+ORDER+BY+key+DESC" > "/tmp/inputCICD.json"
 findSummary=`jq .issues[0].fields.summary '/tmp/inputCICD.json'`
 if [ "$findSummary" != "null"  ]
@@ -171,4 +179,11 @@ else
                                         i=$((i+1))
                         done
         fi
+fi
+else
+                        echo "Adding comment to $rcvnumber"
+                        commentData="'"{"\"update\"":{"\"comment\"":[{"\"add\"":{"\"body\"":"\"PROD deployment done.\""}}]}}"'"
+                        url="http://localhost:8081/rest/api/2/issue/$rcvnumber"
+                        var=`echo curl -D- -u $cred -X PUT --data "$commentData" -H "$contentType" "$url"`
+                        eval $var
 fi
