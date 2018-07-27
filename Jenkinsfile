@@ -34,7 +34,7 @@ pipeline {
 	    post{
 		        always{
 				withCredentials([usernameColonPassword(credentialsId: 'jira', variable: 'USERPASS')]) {
-		            		sh './Jirascript.sh --rcvnumber $jiranumber' --cred "$USERPASS"
+		            		sh './Jirascript.sh --rcvnumber $jiranumber --cred $USERPASS'
 				}
                 	}
 	    }
