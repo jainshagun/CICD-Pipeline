@@ -51,7 +51,7 @@ pipeline {
 		            sh 'chmod +x Jirascript.sh'
 			bat 'xcopy /s/Y "%WORKSPACE%\\hellocucumber\\target\\*.json" "%WORKSPACE%"'
                     withCredentials([usernameColonPassword(credentialsId: 'jira', variable: 'USERPASS')]) {
-                    sh 'file=`ls *.json`;./Jirascript.sh --key "CICD" --summary "CICD Test" --description "This is a Test" --outageRequired "Yes" --outageDetails "CICD Test" --startPlan "27/Jul/18 10:00 AM" --startWindow "2018-07-27T10:00:00.0+0000" --endWindow "2018-07-27T13:00:00.0+0000" --contactDelatils "shagun.jain" --impact "No" --changeType "Normal" --outageStart "2018-07-27T10:00:00.0+0000" --outageEnd "2018-07-27T10:30:00.0+0000" --cred "$USERPASS" --attachment "$file"'
+                    sh 'file=`ls cucumber.json`;./Jirascript.sh --key "CICD" --summary "CICD Test" --description "This is a Test" --outageRequired "Yes" --outageDetails "CICD Test" --startPlan "27/Jul/18 10:00 AM" --startWindow "2018-07-27T10:00:00.0+0000" --endWindow "2018-07-27T13:00:00.0+0000" --contactDelatils "shagun.jain" --impact "No" --changeType "Normal" --outageStart "2018-07-27T10:00:00.0+0000" --outageEnd "2018-07-27T10:30:00.0+0000" --cred "$USERPASS" --attachment "$file"'
                      }
                 }
 	        }
