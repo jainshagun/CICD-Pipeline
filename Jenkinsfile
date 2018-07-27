@@ -19,8 +19,8 @@ pipeline {
      ]
      ],
      causeString: 'Triggered on $status',
-     regexpFilterText: '$status',
-     regexpFilterExpression: 'Ready for Release',
+     regexpFilterText: '$status && $labels',
+     regexpFilterExpression: 'Ready for Release && CICD',
      printContributedVariables: false,
      printPostContent: false
     )
