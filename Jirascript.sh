@@ -132,7 +132,7 @@ if [ -z $rcvnumber ] || [ $$rcvnumber = $empty ]
 else
                         echo "Adding comment to $rcvnumber"
                         commentData="'"{"\"update\"":{"\"comment\"":[{"\"add\"":{"\"body\"":"\"PROD deployment done.\""}}]}, "\"transition\"":{"\"id\"": "\"91\""}}"'"
-                        url="http://localhost:8081/rest/api/2/issue/$rcvnumber/transitions"
+                        url="http://localhost:8081/rest/api/2/issue/$rcvnumber"
                         var=`echo curl -D- -u $cred -X PUT --data "$commentData" -H "$contentType" "$url"`
                         eval $var
 fi
