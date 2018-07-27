@@ -17,7 +17,6 @@ ARGUMENT_LIST=(
         "outageStart"
         "outageEnd"
         "cred"
-        "rcvnumber"
 )
 
 
@@ -113,11 +112,6 @@ while [[ $# -gt 0 ]]; do
             shift 2
             ;;
             
-        --rcvnumber)
-            rcvnumber=$2
-            shift 2
-            ;;
-
         *)
             break
             ;;
@@ -129,8 +123,7 @@ STR=$summary
 STR=`echo ${STR// /%20}`
 empty="\"\""
 contentType='"Content-Type:application/json"'
-if [ -z $rcvnumber ] || [ $$rcvnumber = $empty ]
-        then
+
 curl -u $cred -X GET -H "Content-Type:application/json" "http://localhost:8081/rest/agile/1.0/board/1/issue?fields=summary&jql=project+%3D+$key+AND+status+!%3D+Closed+AND+summary~%22$STR%22+ORDER+BY+key+DESC" > "/tmp/inputCICD.json"
 findSummary=`jq .issues[0].fields.summary '/tmp/inputCICD.json'`
 if [ "$findSummary" != "null"  ]
@@ -138,14 +131,14 @@ if [ "$findSummary" != "null"  ]
                         findTicket=`jq .issues[0].key '/tmp/inputCICD.json'`
                         jiranumber=`echo $findTicket | cut -d "\"" -f2`
                         echo "Adding comment to $jiranumber"
-                        commentData="'"{"\"update\"":{"\"comment\"":[{"\"add\"":{"\"body\"":"\"$sum\""}}]}}"'"
+                        commentData="'"{"\"update\"":{"\"comment\"":[{"\"add\"":{"\"body\"":"\"$summary\""}}]}}"'"
                         url="http://localhost:8081/rest/api/2/issue/$jiranumber"
                         var=`echo curl -D- -u $cred -X PUT --data "$commentData" -H "$contentType" "$url"`
                         eval $var
 else
                 echo "Creating ticket under RCV Board"
                 url="http://localhost:8081/rest/api/2/issue/"
-                summaryData="'"{"\"fields\"":{"\"project\"":{"\"key\"":"\"$key\""},"\"summary\"":"\"$summary\"","\"description\"":"\"$description\"","\"customfield_10112\"":{"\"value\"":"\"$outageRequired\""},"\"customfield_10113\"":"\"$outageDetails\"","\"customfield_10114\"":"\"$startPlan\"","\"customfield_10107\"":"\"$startWindow\"","\"customfield_10108\"":"\"$endWindow\"","\"customfield_10109\"":"\"$outageStart\"","\"customfield_10110\"":"\"$outageEnd\"","\"customfield_10116\"":"\"$contactDetails\"","\"customfield_10111\"":"\"$impact\"","\"customfield_10115\"":{"\"value\"":"\"$changeType\""},"\"issuetype\"":{"\"name\"":"\"Change\""}}}"'"
+                summaryData="'"{"\"fields\"":{"\"project\"":{"\"key\"":"\"$key\""},"\"summary\"":"\"$summary\"","\"description\"":"\"$description\"","\"customfield_10110\"":{"\"value\"":"\"$outageRequired\""},"\"customfield_10111\"":"\"$outageDetails\"","\"customfield_10112\"":"\"$startPlan\"","\"customfield_10113\"":"\"$startWindow\"","\"customfield_10114\"":"\"$endWindow\"","\"customfield_10115\"":"\"$outageStart\"","\"customfield_10116\"":"\"$outageEnd\"","\"customfield_10107\"":"\"$contactDetails\"","\"customfield_10109\"":"\"$impact\"","\"customfield_10108\"":{"\"value\"":"\"$changeType\""},"\"issuetype\"":{"\"name\"":"\"Change\""}}}"'"
                 result=`eval curl -D- -u $cred -X POST --data "$summaryData" -H "$contentType" "$url"`
                 echo $result
                 jiranumber=`echo $result | awk -F '"' '{print $8}'`
@@ -180,10 +173,4 @@ else
                         done
         fi
 fi
-else
-                        echo "Adding comment to $rcvnumber"
-                        commentData="'"{"\"update\"":{"\"comment\"":[{"\"add\"":{"\"body\"":"\"PROD deployment done.\""}}]}}"'"
-                        url="http://localhost:8081/rest/api/2/issue/$rcvnumber"
-                        var=`echo curl -D- -u $cred -X PUT --data "$commentData" -H "$contentType" "$url"`
-                        eval $var
-fi
+
