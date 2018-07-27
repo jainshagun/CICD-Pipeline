@@ -123,7 +123,7 @@ STR=$sum
 STR=`echo ${STR// /%20}`
 empty="\"\""
 contentType='"Content-Type:application/json"'
-curl -u $cred -X GET -H "Content-Type:application/json" "http://localhost:8081/rest/agile/1.0/board/1/issue?fields=summary&jql=project+%3D+$key+AND+status+!%3D+Closed+AND+status+!%3D+REJECTED+AND+summary~%22$STR%22+ORDER+BY+key+DESC" > "/tmp/inputCICD.json"
+curl -u $cred -X GET -H "Content-Type:application/json" "http://localhost:8081/rest/agile/1.0/board/1/issue?fields=summary&jql=project+%3D+$key+AND+status+!%3D+Closed+AND+summary~%22$STR%22+ORDER+BY+key+DESC" > "/tmp/inputCICD.json"
 findSummary=`jq .issues[0].fields.summary '/tmp/inputCICD.json'`
 if [ "$findSummary" != "null"  ]
         then
