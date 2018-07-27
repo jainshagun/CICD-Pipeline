@@ -33,7 +33,9 @@ pipeline {
             }
 	    post{
 		        always{
-		            sh './Jirascript.sh --rcvnumber $jiranumber'
+				withCredentials([usernameColonPassword(credentialsId: 'jira', variable: 'USERPASS')]) {
+		            		sh './Jirascript.sh --rcvnumber $jiranumber' --cred "$USERPASS"
+				}
                 	}
 	    }
     	}
